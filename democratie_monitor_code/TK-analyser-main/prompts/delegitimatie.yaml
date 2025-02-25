@@ -1,0 +1,99 @@
+prompt_template: |
+  Je bent een expert in het analyseren van politieke teksten. Analyseer de onderstaande tekst op vormen van delegitimatie.
+
+  ZEER BELANGRIJK - OUTPUT REGELS:
+  - Geef PRECIES ÉÉN JSON object terug
+  - GEEN extra tekst voor of na de JSON
+  - GEEN code markers (```)
+  - GEEN herhalingen van dezelfde analyse
+  - GEEN uitleg buiten de JSON
+
+  INHOUDELIJKE REGELS:
+  - Rapporteer ALLEEN de meest duidelijke gevallen (confidence ≥ 0.7)
+  - Rapporteer GEEN zwakke of twijfelachtige gevallen
+  - Focus op UNIEKE gevallen (niet dezelfde uitspraak meerdere keren)
+  - Maximaal 5 gevallen per analyse
+
+  Definities van delegitimatie:
+  Delegitimatie is taalgebruik dat de geloofwaardigheid, legitimiteit of integriteit van een persoon, groep of instituut ondermijnt. Dit gebeurt zonder inhoudelijke argumentatie, vaak door beschuldigingen, het belachelijk maken of bedreigen.
+
+  Delegitimatie kan de volgende vormen aannemen:
+  - "breakdown_communication": Een spreker loopt weg uit het debat of kapt het gesprek abrupt af.
+    Voorbeelden:
+    - "Ik weiger nog langer naar deze onzin te luisteren!"
+    - "Voorzitter, ik ga hier niet op in, dit is geen serieuze discussie."
+
+  - "discrediting_information": Twijfel zaaien over feiten, deskundigen of rapporten zonder onderbouwing.
+    Voorbeelden:
+    - "Die cijfers kloppen niet, ik vertrouw ze niet."
+    - "Wie heeft dit rapport opgesteld? Ze hebben vast een verborgen agenda."
+
+  - "demonisering": Het verdraaien of overdrijven van een standpunt om het belachelijk te maken, het demoniseren van een persoon of groep, of persoonlijke aanvallen.
+    Voorbeelden:
+    - "Dit is typisch weer zo'n elitepraatje."
+    - "U bent een gevaar voor de democratie!"
+    - "Dit is precies wat je van die partij kunt verwachten: leugens en bedrog."
+
+  - "bedreiging": Het dreigen met actie (juridisch, fysiek, politiek) tegen een persoon of groep.
+    Voorbeelden:
+    - "Als wij de macht hebben, gaan we jullie aanpakken!"
+    - "We gaan zorgen dat die rechter nooit meer een zaak krijgt."
+
+  Wat géén delegitimatie is:
+  - Kritiek die inhoudelijk onderbouwd is.
+    Voorbeeld: "Ik ben het niet eens met deze rechterlijke uitspraak, omdat deze onvoldoende rekening houdt met X."
+  - Algemene politieke meningsuiting zonder directe ondermijning.
+    Voorbeeld: "Politici moeten meer naar burgers luisteren in plaats van lobbyisten."
+
+  Alleen rapporteren als doelwit:
+  - "parlement": Het parlement als instituut
+  - "politici": Individuele politici of politieke partijen
+  - "rechtspraak": Rechters of het rechtssysteem
+  - "media": Journalisten of mediaorganisaties
+  - "ambtenaren": Het ambtelijk apparaat
+  - "minderheden": Minderheidsgroepen in de samenleving
+
+  Confidence score richtlijnen:
+  - 0.9-1.0: Onmiskenbare delegitimatie met duidelijk bewijs
+  - 0.7-0.9: Duidelijke delegitimatie met goede context
+  - <0.7: NIET RAPPORTEREN
+
+  Retourneer het volgende JSON-formaat:
+  {{
+    "gevonden_delegitimatie": [
+      {{
+        "type": "string (een van de 4 types)",
+        "doelgroep": "string (een van de 6 doelgroepen)",
+        "citaat": "string (exact citaat)",
+        "toelichting": "string (korte uitleg)",
+        "confidence": "float (alleen ≥ 0.7)",
+        "context": "string (relevante context)"
+      }}
+    ],
+    "samenvatting": {{
+      "aantal_gevallen": "integer",
+      "meest_voorkomende_type": "string",
+      "meest_getroffen_doelgroep": "string",
+      "ernst_score": "integer 1-5",
+      "gemiddelde_confidence": "float",
+      "hoogste_confidence": "float",
+      "laagste_confidence": "float"
+    }}
+  }}
+
+  Als er geen delegitimatie met hoge confidence wordt gevonden:
+  {{
+    "gevonden_delegitimatie": [],
+    "samenvatting": {{
+      "aantal_gevallen": 0,
+      "meest_voorkomende_type": "none",
+      "meest_getroffen_doelgroep": "none",
+      "ernst_score": 0,
+      "gemiddelde_confidence": 0.0,
+      "hoogste_confidence": 0.0,
+      "laagste_confidence": 0.0
+    }}
+  }}
+
+  Te analyseren tekst:
+  {text}
