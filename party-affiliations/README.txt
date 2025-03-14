@@ -1,7 +1,8 @@
-This folder contains two datasets related to Dutch political figures:
+This folder contains three datasets related to Dutch political figures:
 
     List of Tweede Kamerleden (2006 - Present) – Data sourced from Wikipedia.
     Ministers and Staatssecretarissen (1945 - Present) – Data sourced from Parlement.com.
+    Voorzitters Tweede Kamer (1917 - Present) – Data sourced from Parlement.com
 
 File Descriptions
 
@@ -42,3 +43,15 @@ Notes
     Some entries may have missing end_date values, indicating the person is still in office.
     Party affiliations may change over time, so a person may appear multiple times under different parties.
     Individuals may also be listed multiple times due to temporary absences, such as sick leave (ziekenverlof) or parental leave (zwangerschapsverlof).
+
+3. Voorzitters_Tweede_Kamer_1917-present.csv
+
+This file contains information about voorzitters from 1917 to the present.
+
+Columns:
+
+    full_name – The full name of the speaker.
+    last_name – The last name of the speaker.
+    party – The political party they represented.
+    start_date – The date they started their role.
+    end_date – The date they ended their role (if applicable).
